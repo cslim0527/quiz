@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
@@ -10,6 +10,10 @@ const Main = () => {
   const history = useHistory()
   const dispatch = useDispatch()
   const nameInput = useRef('')
+
+  useEffect(() => {
+    nameInput.current.focus()
+  })
   
   // 이름 입력 여부 확인 후 퀴즈 시작
   const quizStart = () => {
