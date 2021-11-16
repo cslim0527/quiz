@@ -1,15 +1,44 @@
 import React from 'react'
 import styled from 'styled-components'
+import { useHistory } from 'react-router'
+import { useDispatch, useSelector } from 'react-redux'
 
 const Result = () => {
+  const history = useHistory()
+  const { user, question } = useSelector(state => state)
+  
+  // 맞은 점수 구하기
+  const getScore = () => {
+    const userSheet = user.answer
+    const quizSheet = question.list
+
+    return userSheet.reduce((total, answer, idx) => {
+      const rightAnswer = quizSheet[idx].answer
+      const score = quizSheet[idx].score
+      if (answer === rightAnswer) {
+        // console.log('맞았다! 유저: ',answer, '정답: ', rightAnswer)
+        return total += score
+      } else {
+        // console.log('틀렸다! 유저: ',answer, '정답: ', rightAnswer)
+        return total
+      }
+    }, 0)
+  }
+
+  const totalScore = getScore()
+
+  const handleClickGoMain = () => {
+    history.push('/')
+  }
+
   return (
     <ResultArea>
       <div className="result-title">
-        <span>퀴즈퀴즈</span>에 대한 내 점수는?
+        <span>퀴즈퀴즈</span>에 대한 { user.name }님 점수는?
       </div>
       <div className="result-score">
         <div className="score-txt">
-          <strong className="score">100</strong> 점
+          <strong className="score">{ totalScore }</strong> 점
         </div>
         <p className="comment">
           아주 좋아요! :)
@@ -18,7 +47,7 @@ const Result = () => {
       <div className="result-btns">
         <button type="button">점수보기</button>
         <button type="button">랭킹보기</button>
-        <button type="button">처음으로</button>
+        <button onClick={handleClickGoMain} type="button">처음으로</button>
       </div>
     </ResultArea>
   );

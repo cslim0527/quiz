@@ -1,18 +1,56 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
+import { useHistory, useParams } from 'react-router-dom'
+import { useDispatch, useSelector } from 'react-redux'
+import { updateUserAnswer } from '../redux/modules/user'
 
 const Quiz = () => {
+  const { index } = useParams()
+  const history = useHistory()
+  const dispatch = useDispatch()
+  const isJump = useSelector(state => state.user.jump)
+  const quizList = useSelector(state => state.question.list)
+  const currQuiz = quizList[index-1].question
+
+  // 문제 중간 난입 시 첫 페이지로 이동
+  useEffect(() => {
+    if (isJump) {
+      alert('처음부터 시작해주세요! :)')
+      history.push('/')
+    }
+  })
+
+  // O 버튼 동작
+  const handleClickRightBtn = () => {
+    dispatch(updateUserAnswer(true))
+    moveNext()
+  }
+
+  // X 버튼 동작
+  const handleClickWrongBtn = () => {
+    dispatch(updateUserAnswer(false))
+    moveNext()
+  }
+
+  // 다음 문제로 이동
+  const moveNext = () => {
+    const stage = Number(index)
+    if (stage > 9) {
+      history.push(`/result`)
+    } else {
+      history.push(`/quiz/${stage + 1}`)
+    }
+  }
+
   return (
     <QuizBox>
       <div className="q-header">
-        <span>5번 문제</span>
+        <span>{index}번 문제</span>
       </div>
-      <div className="q-content">
-        르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다2살이다2살이다2살이다2살이다2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.르탄이는 2살이다.
-      </div>
+      <div className="q-content">{currQuiz}</div>
       <div className="q-footer">
-        <RrightBtn type="button">O</RrightBtn>
-        <WrongBtn type="button">X</WrongBtn>
+        <RrightBtn onClick={handleClickRightBtn} type="button">O</RrightBtn>
+        <WrongBtn onClick={handleClickWrongBtn} type="button">X</WrongBtn>
       </div>
     </QuizBox>
   );
