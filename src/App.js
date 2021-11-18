@@ -6,11 +6,13 @@ import { Route, Switch } from 'react-router-dom'
 import Main from './components/Main'
 import Quiz from './components/Quiz'
 import Result from './components/Result'
+import Rank from './components/Rank'
+import Comment from './components/Comment'
 import NotFound from './components/NotFound'
 
 function App() {
   return (
-    <Wrap>
+    <Wrap className="container">
       <GlobalStyles />
       <Switch>
         <Route path="/" exact>
@@ -22,6 +24,12 @@ function App() {
         <Route path="/result" exact>
           <Result />
         </Route>
+        <Route path="/rank" exact>
+          <Rank />
+        </Route>
+        <Route path="/comment" exact>
+          <Comment />
+        </Route>
         <Route>
           <NotFound />
         </Route>
@@ -31,7 +39,6 @@ function App() {
 }
 
 const Wrap = styled.div`
-  max-width: 768px;
   margin: 0 auto;
   padding: 16px;
 `

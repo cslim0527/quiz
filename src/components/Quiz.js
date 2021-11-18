@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useHistory, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateUserAnswer } from '../redux/modules/user'
+import ProgressBar from './ProgressBar'
 
 const Quiz = () => {
   const { index } = useParams()
@@ -11,6 +12,12 @@ const Quiz = () => {
   const isJump = useSelector(state => state.user.jump)
   const quizList = useSelector(state => state.question.list)
   const currQuiz = quizList[index-1].question
+  
+  const progressData = {
+    current: index,
+    total: quizList.length,
+    progress: index / quizList.length * 100
+  }
 
   // 문제 중간 난입 시 첫 페이지로 이동
   useEffect(() => {
@@ -43,9 +50,10 @@ const Quiz = () => {
   }
 
   return (
-    <QuizBox>
+    <QuizBox className="container">
       <div className="q-header">
-        <span>{index}번 문제</span>
+        <ProgressBar progressData={progressData}/>
+        <div># {index}번 문제 #</div>
       </div>
       <div className="q-content">{currQuiz}</div>
       <div className="q-footer">
@@ -61,19 +69,21 @@ const QuizBox = styled.article`
 
   .q-header {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-bottom: 40px;
 
     span {
       padding: 10px 12px 6px 12px;
-      font-size: 20px;
+      font-size: 24px;
       border: 3px solid #333;
       border-radius: 40px;
     }
   }
 
   .q-content {
+    padding: 40px 16px;
     font-size: 26px;
     word-break: break-word;
     margin-bottom: 40px;

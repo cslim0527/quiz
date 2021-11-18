@@ -44,11 +44,10 @@ const Result = () => {
           아주 좋아요! :)
         </p>
       </div>
-      <div className="result-btns">
-        <button type="button">점수보기</button>
-        <button type="button">랭킹보기</button>
+      <nav className="result-btns">
+        <button type="button">한마디 남기기</button>
         <button onClick={handleClickGoMain} type="button">처음으로</button>
-      </div>
+      </nav>
     </ResultArea>
   );
 }
@@ -98,12 +97,12 @@ const ResultArea = styled.section`
       border: 3px solid #333;
 
       &:first-child {
-        background-color: #f3b7b7;
+        background-color: #99dde4;
       }
 
       &:last-child {
         margin-bottom: 0;
-        background-color: #99dde4;
+        background-color: #f3b7b7;
       }
     }
   }
