@@ -31,6 +31,11 @@ const Result = () => {
     history.push('/')
   }
 
+  const handleClickCommentBtn = () => {
+    history.push('/comment')
+  }
+  
+
   return (
     <ResultArea>
       <div className="result-title">
@@ -45,7 +50,7 @@ const Result = () => {
         </p>
       </div>
       <nav className="result-btns">
-        <button type="button">한마디 남기기</button>
+        <button onClick={handleClickCommentBtn} type="button">한마디 남기기</button>
         <button onClick={handleClickGoMain} type="button">처음으로</button>
       </nav>
     </ResultArea>

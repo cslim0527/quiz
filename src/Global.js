@@ -47,7 +47,7 @@ const GlobalStyles = createGlobalStyle`
 
   .container {
     margin: 0 auto;
-    max-width: 450px;
+    max-width: 480px;
   }
   
 `

@@ -1,13 +1,35 @@
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import profile from '../img/logo.jpg'
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
+import { useHistory } from 'react-router'
+import { useSelector } from 'react-redux'
 
 const Comment = () => {
+  const history = useHistory()
+  const isJump = useSelector(state => state.user.jump)
+
+  // 문제 중간 난입 시 첫 페이지로 이동
+  useEffect(() => {
+    if (isJump) {
+      alert('잘못된 접근입니다! :(')
+      history.push('/')
+    }
+  })
+
+  const handleClickBackBtn = () => {
+    history.goBack()
+  }
+
+  const handleClickRankBtn = () => {
+    history.push('/rank')
+  }
+
   return (
     <CommentArea>
       <div className="comment-header">
         <div className="container">
-          <KeyboardArrowLeftIcon className="back-btn" />
+          <KeyboardArrowLeftIcon onClick={handleClickBackBtn} className="back-btn" />
         </div>
       </div>
 
@@ -22,7 +44,7 @@ const Comment = () => {
 
         <textarea placeholder="한마디를 남겨주세요.."></textarea>
 
-        <button className="rank-btn">랭킹보기</button>
+        <button className="rank-btn" onClick={handleClickRankBtn}>랭킹보기</button>
       </div>
 
     </CommentArea>

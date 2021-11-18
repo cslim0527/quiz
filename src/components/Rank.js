@@ -1,41 +1,58 @@
+import { useRef } from 'react'
 import styled from 'styled-components'
-import Card from '@material-ui/core/Card'
-import EmojiEventsIcon from '@material-ui/icons/EmojiEvents'
+import { useHistory } from 'react-router'
+import { useSelector } from 'react-redux'
+
+import User from './User'
 
 const Rank = () => {
+  const history = useHistory()
+  const isJump = useSelector(state => state.user.jump)
+  const userName = useSelector(state => state.user.name)
+  const rankData = useSelector(state => state.rank.list)
+
+  const handleClickHomeBtn = () => {
+    history.push('/')
+  }
+
+  const handleClickFindMe = () => {
+    const step = rankData.findIndex(data => data.name == userName)
+    window.scrollTo({top: 150 * step, left: 0, behavior: 'smooth'})
+  }
+
   return (
-    <RankArea>
+    <RankArea isJump={isJump}>
       <div className="container">
-        <button className="report">
-          <span>100</span>명의 사람중 당신은?
-        </button>
+
+        {
+          // 문제 풀이없이 접근 할 경우 상단바를 노출하지 않음
+          !isJump && 
+          <button className="report" onClick={handleClickFindMe}>
+            <span>100</span>명의 사람중 당신은?
+          </button>
+        }
 
         <ul className="rank-list">
-          <Card className="gold my-rank" component="li">
-            <EmojiEventsIcon className="icon-rank" />
-            <div className="rank-num">
-              1<small>등</small>
-            </div>
-            <div className="rank-info">
-              <div className="name">임찬수</div>
-              <p className="comment">
-                aksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkasaksdjlaksdjaslkdjaslkdjasldkjasldkasjdlkasjdlkas
-              </p>
-            </div>
-          </Card>
+        { 
+          !rankData.length 
+            ? '랭킹 데이터가 없습니다.'
+            : rankData.map((data, idx) => {
+                return <User key={idx} data={data}/>
+            })
+        }
         </ul>
       </div>
 
-      <button className="home-btn">처음으로</button>
+      <button className="home-btn" onClick={handleClickHomeBtn}>처음으로</button>
     </RankArea>
   )
 }
 
 const RankArea = styled.section`
-  padding-top: 40px;
+  padding-top: ${props => props.isJump ? 0 : '40px'};
 
   .report {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     z-index: 1;
@@ -66,16 +83,18 @@ const RankArea = styled.section`
 
   .rank-list {
     li {
+      overflow: visible;
       color: #4c4c4e;
       display: flex;
+      align-items: center;
       padding: 16px;
       padding-top: 25px;
       margin-bottom: 20px;
       position: relative;
+      height: 130px;
+      background-color: #f9f9f9; 
 
       &.gold {
-        border: 2px solid #f0ca00;
-
         .icon-rank,
         .rank-num {
           color: #f0ca00;
@@ -83,8 +102,6 @@ const RankArea = styled.section`
       }
 
       &.silver {
-        border: 2px solid silver;
-
         .icon-rank,
         .rank-num {
           color: silver;
@@ -92,8 +109,6 @@ const RankArea = styled.section`
       }
 
       &.brown {
-        border: 2px solid brown;
-
         .icon-rank,
         .rank-num {
           color: brown;
@@ -101,7 +116,26 @@ const RankArea = styled.section`
       }
 
       &.my-rank {
-        background-color: #fff6da;
+        border: 3px solid #2f2f2f;
+
+        &:after {
+          content: '나';
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 30px;
+          height: 30px;
+          border: 3px solid #2f2f2f;
+          position: absolute;
+          top: 0;
+          left: 0;
+          color: #fff;
+          border-radius: 50%;
+          background-color: #2196f3;
+          margin-left: -10px;
+          margin-top: -5px;
+          transform: rotate(-25deg);
+        }
       }
     }
 
@@ -113,9 +147,12 @@ const RankArea = styled.section`
     }
 
     .rank-num {
-      font-size: 42px;
+      font-size: 38px;
       margin-right: 10px;
-      padding: 20px 20px 15px 20px;
+      width: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       small {
         font-size: 24px;
@@ -127,9 +164,23 @@ const RankArea = styled.section`
     .rank-info {
       flex: 1; 
 
+      .info-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-space-between;
+        margin-bottom: 5px;
+        padding-right: 40px;
+      }
+
       .name {
         font-size: 22px;
-        margin-bottom: 10px;
+      }
+
+      .score {
+        font-size: 14px;
+        color: #f44336;
+        margin-left: auto;
+        font-style: italic;
       }
 
       .comment {
