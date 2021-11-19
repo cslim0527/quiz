@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import profile from '../img/logo.jpg'
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
@@ -8,6 +8,9 @@ import { useSelector } from 'react-redux'
 const Comment = () => {
   const history = useHistory()
   const isJump = useSelector(state => state.user.jump)
+  const userData = useSelector(state => state.user)
+  console.log(userData)
+  const taRef = useRef()
 
   // 문제 중간 난입 시 첫 페이지로 이동
   useEffect(() => {
@@ -15,6 +18,8 @@ const Comment = () => {
       alert('잘못된 접근입니다! :(')
       history.push('/')
     }
+
+    taRef.current.focus()
   })
 
   const handleClickBackBtn = () => {
@@ -42,7 +47,7 @@ const Comment = () => {
           <span>찬수</span>에게 남기는 한마디
         </div>
 
-        <textarea placeholder="한마디를 남겨주세요.."></textarea>
+        <textarea ref={taRef} placeholder="한마디를 남겨주세요.."></textarea>
 
         <button className="rank-btn" onClick={handleClickRankBtn}>랭킹보기</button>
       </div>
@@ -103,6 +108,10 @@ const CommentArea = styled.section`
       border-radius: 6px;
       border: 3px solid #eaeaea;
       margin-bottom: 40px;
+
+      &:focus {
+        border-color: #2f2f2f;
+      }
     }
   }
 

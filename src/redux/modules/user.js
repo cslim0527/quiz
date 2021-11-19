@@ -16,7 +16,7 @@ export function createUserName(name, jump) {
 }
 
 export function updateUserAnswer(answer) {
-  return { type: UPDATE_LIST, answer };
+  return { type: UPDATE_LIST, answerData: answer };
 }
 
 // Reducer
@@ -30,12 +30,23 @@ export default function reducer(state = initialState, action = {}) {
       }
 
     case 'user/list/UPDATE':
+      let newAnswer = null
+      let idx = Number(action.answerData.index) - 1
+
+      // 이미 풀었던 문제일 경우
+      if (state.answer[idx] !== undefined) {
+        state.answer[idx] = action.answerData.answer
+        newAnswer = state.answer
+      } else {
+        newAnswer = [
+          ...state.answer,
+          action.answerData.answer
+        ]
+      }
+
       return {
         name: state.name,
-        answer: [
-          ...state.answer,
-          action.answer
-        ]
+        answer: newAnswer
       }
 
     default: return state;

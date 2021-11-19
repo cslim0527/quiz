@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 const Result = () => {
   const history = useHistory()
   const { user, question } = useSelector(state => state)
+  console.log(user)
   
   // 맞은 점수 구하기
   const getScore = () => {

@@ -29,13 +29,13 @@ const Quiz = () => {
 
   // O 버튼 동작
   const handleClickRightBtn = () => {
-    dispatch(updateUserAnswer(true))
+    dispatch(updateUserAnswer({ answer: true, index }))
     moveNext()
   }
 
   // X 버튼 동작
   const handleClickWrongBtn = () => {
-    dispatch(updateUserAnswer(false))
+    dispatch(updateUserAnswer({ answer: false, index }))
     moveNext()
   }
 

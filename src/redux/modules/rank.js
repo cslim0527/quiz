@@ -51,12 +51,12 @@ const initialState = {
   ]
 }
 
-// Action Creators [사용안함]
+// Action Creators
 export function addRank(data) {
   return { type: ADD, data };
 }
 
-// Reducer [사용안함]
+// Reducer
 export default function reducer(state = initialState, action = {}) {
   switch (action.type) {
     case 'rank/ADD':
