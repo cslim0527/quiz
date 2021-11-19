@@ -1,7 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components'
 import GlobalStyles from './Global'
 import { Route, Switch } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { loadQuestionFB } from './redux/modules/question'
+import { loadRankFB } from './redux/modules/rank'
 
 import Main from './components/Main'
 import Quiz from './components/Quiz'
@@ -11,6 +14,13 @@ import Comment from './components/Comment'
 import NotFound from './components/NotFound'
 
 function App() {
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(loadQuestionFB())
+    dispatch(loadRankFB())
+  }, [])
+
   return (
     <Wrap className="container">
       <GlobalStyles />

@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { useHistory, useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { updateUserAnswer } from '../redux/modules/user'
+
 import ProgressBar from './ProgressBar'
 
 const Quiz = () => {
@@ -11,7 +12,7 @@ const Quiz = () => {
   const dispatch = useDispatch()
   const isJump = useSelector(state => state.user.jump)
   const quizList = useSelector(state => state.question.list)
-  const currQuiz = quizList[index-1].question
+  const currQuiz = quizList[index-1]?.question
   
   const progressData = {
     current: index,
@@ -25,7 +26,7 @@ const Quiz = () => {
       alert('처음부터 시작해주세요! :)')
       history.push('/')
     }
-  })
+  }, [])
 
   // O 버튼 동작
   const handleClickRightBtn = () => {
@@ -42,7 +43,7 @@ const Quiz = () => {
   // 다음 문제로 이동
   const moveNext = () => {
     const stage = Number(index)
-    if (stage > 9) {
+    if (stage > quizList.length - 1) {
       history.push(`/result`)
     } else {
       history.push(`/quiz/${stage + 1}`)

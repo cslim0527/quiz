@@ -1,15 +1,22 @@
 import styled from 'styled-components'
 import { useHistory } from 'react-router'
 import { useSelector } from 'react-redux'
+import { useState } from 'react'
 
 import User from './User'
+import Spinner from './Spinner'
+import NoData from './NoData'
 
 const Rank = () => {
   const history = useHistory()
   const isJump = useSelector(state => state.user.jump)
   const userName = useSelector(state => state.user.name)
   const rankData = useSelector(state => state.rank.list)
-  const data = useSelector(state => state)
+  const [loadingFlag, setLoadingFlag] = useState(false)
+  setTimeout(() => {
+    console.log('1초 딜레이')
+    setLoadingFlag(true)
+  }, 2000)
 
   const handleClickHomeBtn = () => {
     history.push('/')
@@ -18,6 +25,10 @@ const Rank = () => {
   const handleClickFindMe = () => {
     const step = rankData.findIndex(data => data.name == userName)
     window.scrollTo({top: 150 * step, left: 0, behavior: 'smooth'})
+  }
+
+  const setLoadingSpinner = () => {
+
   }
 
   return (
@@ -31,14 +42,15 @@ const Rank = () => {
             <span>100</span>명의 사람중 당신은?
           </button>
         }
-
         <ul className="rank-list">
         { 
-          !rankData.length 
-            ? '랭킹 데이터가 없습니다.'
-            : rankData.map((data, idx) => {
+          !loadingFlag
+            ? <Spinner />
+            : !rankData.length 
+              ? <NoData /> 
+              : rankData.map((data, idx) => {
                 return <User key={idx} data={data}/>
-            })
+              })
         }
         </ul>
       </div>

@@ -1,6 +1,5 @@
 import Card from '@material-ui/core/Card'
 import EmojiEventsIcon from '@material-ui/icons/EmojiEvents'
-import { useHistory } from 'react-router'
 import { useSelector } from 'react-redux'
 
 const User = ({ data }) => {

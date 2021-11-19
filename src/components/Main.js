@@ -3,7 +3,6 @@ import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { createUserName } from "../redux/modules/user";
-
 import logo from '../img/logo.jpg'
 
 const Main = () => {
@@ -11,11 +10,6 @@ const Main = () => {
   const dispatch = useDispatch()
   const nameInput = useRef('')
   const users = useSelector(state => state.rank.list)
-  console.log(users)
-
-  useEffect(() => {
-    nameInput.current.focus()
-  })
 
   const checkExistName = () => {
     return users.some(user => user.name === nameInput.current.value)

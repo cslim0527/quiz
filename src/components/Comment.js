@@ -4,7 +4,7 @@ import profile from '../img/logo.jpg'
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import { useHistory } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux'
-import { addRank } from '../redux/modules/rank'
+import { addRankFB } from '../redux/modules/rank'
 
 const Comment = () => {
   const dispatch = useDispatch()
@@ -40,7 +40,9 @@ const Comment = () => {
       score: userScore,
       comment: taRef.current.value
     }
-    dispatch(addRank(rankData))
+    
+    dispatch(addRankFB(rankData))
+    
     history.push('/rank')
   }
 
