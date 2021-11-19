@@ -2,11 +2,15 @@ import React from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
+import { addUserScore } from '../redux/modules/user'
+import goodImg from '../img/good.gif'
+import sosoImg from '../img/soso.gif'
+import badImg from '../img/bad.gif'
 
 const Result = () => {
+  const dispatch = useDispatch()
   const history = useHistory()
   const { user, question } = useSelector(state => state)
-  console.log(user)
   
   // 맞은 점수 구하기
   const getScore = () => {
@@ -28,11 +32,31 @@ const Result = () => {
 
   const totalScore = getScore()
 
+  const resultImgSource = () => {
+    if (totalScore >= 80) {
+      return {
+        src: goodImg,
+        txt: '이렇게 관심을 갖고있으셨다니! :)'
+      }
+    } else if (totalScore >= 40 && totalScore < 80) {
+      return {
+        src: sosoImg,
+        txt: '앞으로 서로 더 알아가도록 해요 :)'
+      }
+    } else {
+      return {
+        src: badImg,
+        txt: '...그..그럴수 있어요 @_@'
+      }
+    }
+  }
+
   const handleClickGoMain = () => {
     history.push('/')
   }
 
   const handleClickCommentBtn = () => {
+    dispatch(addUserScore(totalScore))
     history.push('/comment')
   }
   
@@ -46,9 +70,8 @@ const Result = () => {
         <div className="score-txt">
           <strong className="score">{ totalScore }</strong> 점
         </div>
-        <p className="comment">
-          아주 좋아요! :)
-        </p>
+        <img className="result-img" src={ resultImgSource().src } alt="" />
+        <p className="comment">{ resultImgSource().txt }</p>
       </div>
       <nav className="result-btns">
         <button onClick={handleClickCommentBtn} type="button">한마디 남기기</button>
@@ -91,6 +114,11 @@ const ResultArea = styled.section`
     .comment {
       font-size: 18px;
     }
+  }
+
+  .result-img {
+    width: 75%;
+    margin-bottom: 20px;
   }
 
   .result-btns {

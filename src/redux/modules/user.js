@@ -3,6 +3,7 @@
 // Actions
 const CREATE = 'user/CREATE';
 const UPDATE_LIST = 'user/list/UPDATE';
+const ADD_SCORE = 'user/score/ADD'
 
 const initialState = {
   name: '',
@@ -17,6 +18,10 @@ export function createUserName(name, jump) {
 
 export function updateUserAnswer(answer) {
   return { type: UPDATE_LIST, answerData: answer };
+}
+
+export function addUserScore(score) {
+  return { type: ADD_SCORE, score };
 }
 
 // Reducer
@@ -47,6 +52,13 @@ export default function reducer(state = initialState, action = {}) {
       return {
         name: state.name,
         answer: newAnswer
+      }
+
+    case 'user/score/ADD':
+      console.log('[ADD]', state, action)
+      return {
+        ...state,
+        score: action.score
       }
 
     default: return state;

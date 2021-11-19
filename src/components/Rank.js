@@ -1,4 +1,3 @@
-import { useRef } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router'
 import { useSelector } from 'react-redux'
@@ -10,6 +9,7 @@ const Rank = () => {
   const isJump = useSelector(state => state.user.jump)
   const userName = useSelector(state => state.user.name)
   const rankData = useSelector(state => state.rank.list)
+  const data = useSelector(state => state)
 
   const handleClickHomeBtn = () => {
     history.push('/')

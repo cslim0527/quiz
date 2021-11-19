@@ -3,13 +3,15 @@ import styled from 'styled-components'
 import profile from '../img/logo.jpg'
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import { useHistory } from 'react-router'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { addRank } from '../redux/modules/rank'
 
 const Comment = () => {
+  const dispatch = useDispatch()
   const history = useHistory()
   const isJump = useSelector(state => state.user.jump)
-  const userData = useSelector(state => state.user)
-  console.log(userData)
+  const userName = useSelector(state => state.user.name)
+  const userScore = useSelector(state => state.user.score)
   const taRef = useRef()
 
   // 문제 중간 난입 시 첫 페이지로 이동
@@ -27,6 +29,18 @@ const Comment = () => {
   }
 
   const handleClickRankBtn = () => {
+    if (taRef.current.value === '') {
+      alert('랭킹 등록을 위해 한마디를 남겨주세요!')
+      taRef.current.focus()
+      return
+    }
+
+    const rankData = {
+      name: userName,
+      score: userScore,
+      comment: taRef.current.value
+    }
+    dispatch(addRank(rankData))
     history.push('/rank')
   }
 

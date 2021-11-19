@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { createUserName } from "../redux/modules/user";
 
 import logo from '../img/logo.jpg'
@@ -10,16 +10,28 @@ const Main = () => {
   const history = useHistory()
   const dispatch = useDispatch()
   const nameInput = useRef('')
+  const users = useSelector(state => state.rank.list)
+  console.log(users)
 
   useEffect(() => {
     nameInput.current.focus()
   })
+
+  const checkExistName = () => {
+    return users.some(user => user.name === nameInput.current.value)
+  }
   
   // 이름 입력 여부 확인 후 퀴즈 시작
   const quizStart = () => {
     const name = nameInput.current.value
     if (!name) {
       alert('이름을 입력해주세요!')
+      nameInput.current.focus()
+      return
+    }
+
+    if (checkExistName()) {
+      alert('이미 사용된 이름이에요! 다른 이름을 입력해주세요 :)')
       nameInput.current.focus()
       return
     }
