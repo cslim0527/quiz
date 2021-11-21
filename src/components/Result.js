@@ -74,9 +74,9 @@ const Result = () => {
         <p className="comment">{ resultImgSource().txt }</p>
       </div>
       <nav className="result-btns">
-        <button onClick={handleClickCommentBtn} type="button">한마디 남기기</button>
         <button onClick={handleClickGoMain} type="button">처음으로</button>
-      </nav>
+        <button onClick={handleClickCommentBtn} type="button">한마디 남기기</button>
+        </nav>
     </ResultArea>
   );
 }
@@ -131,12 +131,12 @@ const ResultArea = styled.section`
       border: 3px solid #333;
 
       &:first-child {
-        background-color: #99dde4;
+        background-color: #f3b7b7;
       }
 
       &:last-child {
         margin-bottom: 0;
-        background-color: #f3b7b7;
+        background-color: #99dde4;
       }
     }
   }

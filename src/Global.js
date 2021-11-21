@@ -27,6 +27,10 @@ const GlobalStyles = createGlobalStyle`
     font-family: 'SBAggroB';
   }
 
+  ol, ul, li {
+    list-style-type: none;
+  }
+
   input[type="text"] {
     height: 42px;
     padding: 6px;

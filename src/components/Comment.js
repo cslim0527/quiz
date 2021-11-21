@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import profile from '../img/logo.jpg'
+import profile from '../img/logo.png'
 import KeyboardArrowLeftIcon from '@material-ui/icons/KeyboardArrowLeft';
 import { useHistory } from 'react-router'
 import { useSelector, useDispatch } from 'react-redux'
@@ -12,6 +12,7 @@ const Comment = () => {
   const isJump = useSelector(state => state.user.jump)
   const userName = useSelector(state => state.user.name)
   const userScore = useSelector(state => state.user.score)
+  const userAnswer = useSelector(state => state.user.answer)
   const taRef = useRef()
 
   // 문제 중간 난입 시 첫 페이지로 이동
@@ -38,7 +39,8 @@ const Comment = () => {
     const rankData = {
       name: userName,
       score: userScore,
-      comment: taRef.current.value
+      comment: taRef.current.value,
+      answers: userAnswer
     }
     
     dispatch(addRankFB(rankData))

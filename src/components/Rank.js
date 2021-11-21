@@ -4,8 +4,11 @@ import { useSelector } from 'react-redux'
 import { useState } from 'react'
 
 import User from './User'
+import AnswerPaper from './AnswerPaper'
 import Spinner from './Spinner'
 import NoData from './NoData'
+
+import GitHubIcon from '@material-ui/icons/GitHub';
 
 const Rank = () => {
   const history = useHistory()
@@ -13,8 +16,9 @@ const Rank = () => {
   const userName = useSelector(state => state.user.name)
   const rankData = useSelector(state => state.rank.list)
   const [loadingFlag, setLoadingFlag] = useState(false)
+  const [ paperShowState, setPaperShowState] = useState(false)
+
   setTimeout(() => {
-    console.log('1초 딜레이')
     setLoadingFlag(true)
   }, 2000)
 
@@ -22,13 +26,17 @@ const Rank = () => {
     history.push('/')
   }
 
+  const handleClickShowPaper = () => {
+    paperShowState ? setPaperShowState(false) : setPaperShowState(true)
+  }
+
   const handleClickFindMe = () => {
     const step = rankData.findIndex(data => data.name == userName)
     window.scrollTo({top: 150 * step, left: 0, behavior: 'smooth'})
   }
 
-  const setLoadingSpinner = () => {
-
+  const handleClickGithubBtn = () => {
+    window.open('https://github.com/cslim0527/quiz')
   }
 
   return (
@@ -55,7 +63,18 @@ const Rank = () => {
         </ul>
       </div>
 
-      <button className="home-btn" onClick={handleClickHomeBtn}>처음으로</button>
+      <div className="btn-group">
+        <GitHubIcon className="github-btn" onClick={handleClickGithubBtn}/>
+        <button className="home-btn" onClick={handleClickHomeBtn}>처음으로</button>
+
+        {
+          // 문제 풀이없이 접근 할 경우 정답보기를 노출하지 않음
+          !isJump && <button className="answer-paper-btn" onClick={handleClickShowPaper}>정답보기</button>
+        }
+        
+      </div>
+
+      <AnswerPaper showState={paperShowState} showToggle={setPaperShowState} />
     </RankArea>
   )
 }
@@ -209,22 +228,51 @@ const RankArea = styled.section`
     }
   }
   
-  .home-btn {
+  .btn-group{
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+  }
+
+  .home-btn,
+  .answer-paper-btn {
       border-radius: 40px;
-      margin-bottom: 10px;
       border: 3px solid #333;
       background-color: #99dde4;
       line-height: 28px;
       padding-left: 10px;
       padding-right: 10px;
-      position: fixed;
-      bottom: 40px;
-      left: 50%;
-      transform: translateX(-50%);
+      margin-left: 10px;
       opacity: 0.8;
 
       &:hover {
         background-color: #74dae5;
+        opacity: 1;
+      }
+  }
+
+  .answer-paper-btn {
+    background-color: #f3b7b7;
+
+    &:hover {
+        background-color: #ff9595;
+        opacity: 1;
+      }
+  }
+
+  .github-btn {
+    cursor: pointer;
+    border-radius: 40px;
+    border: 3px solid #333;
+    width: 60px;
+    height: 42px;
+    padding: 4px;
+    opacity: 0.8;
+
+    &:hover {
         opacity: 1;
       }
   }
