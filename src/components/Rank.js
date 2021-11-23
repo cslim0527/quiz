@@ -128,21 +128,21 @@ const RankArea = styled.section`
       &.gold {
         .icon-rank,
         .rank-num {
-          color: #f0ca00;
+          color: #f0ca00 !important;
         }
       }
 
       &.silver {
         .icon-rank,
         .rank-num {
-          color: silver;
+          color: silver !important;
         }
       }
 
       &.brown {
         .icon-rank,
         .rank-num {
-          color: brown;
+          color: brown !important;
         }
       }
 
@@ -232,9 +232,15 @@ const RankArea = styled.section`
     position: fixed;
     bottom: 40px;
     left: 50%;
+    width: 100%;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
+    justify-content: center;
+
+    button {
+      flex-shrink: 0;
+    }
   }
 
   .home-btn,
@@ -275,6 +281,37 @@ const RankArea = styled.section`
     &:hover {
         opacity: 1;
       }
+  }
+
+  @media screen and (max-width: 425px) {
+    .rank-list {
+      
+      li {
+        display: block;
+        padding: 10px;
+      }
+
+      .rank-num {
+        width: auto;
+        display: block;
+        font-size: 24px;
+      }
+
+      .icon-rank {
+        top: 8px;
+      }
+
+      .rank-info {
+        .name {
+          font-size: 18px;
+        }
+
+        .info-top {
+          padding-right: 0;
+          margin-top: 10px;
+        }
+      }
+    }
   }
 `
 
