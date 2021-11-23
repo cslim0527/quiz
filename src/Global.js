@@ -37,6 +37,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   button {
+    color: #2f2f2f;
     font-family: 'SBAggroB';
     border: 0;
     padding: 6px;

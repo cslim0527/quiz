@@ -20,7 +20,7 @@ const AnswerPaper = ({ showState, showToggle }) => {
         {
           question.list.map((item, idx) => {
             return (
-              <li className={item.answer === user.answer[idx] ? 'answer-item right' : 'answer-item wrong'}>
+              <li key={idx} className={item.answer === user.answer[idx] ? 'answer-item right' : 'answer-item wrong'}>
                 <p className="question">
                   [{idx + 1}번] {item.question}
                 </p>
