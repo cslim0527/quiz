@@ -1,4 +1,4 @@
-import React from 'react'
+import { useEffect } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
@@ -10,7 +10,16 @@ import badImg from '../img/bad.gif'
 const Result = () => {
   const dispatch = useDispatch()
   const history = useHistory()
+  const isJump = useSelector(state => state.user.jump)
   const { user, question } = useSelector(state => state)
+  
+  // 문제 중간 난입 시 첫 페이지로 이동
+  useEffect(() => {
+    if (isJump) {
+      alert('처음부터 시작해주세요! :)')
+      history.push('/')
+    }
+  }, [])
   
   // 맞은 점수 구하기
   const getScore = () => {
